@@ -106,6 +106,7 @@ const s = {
     Main_clearTimeout: id => timers.delete(id),
     Play_isEndDialogVisible: () => false,
     Play_StayDialogVisible: () => false,
+    Play_LiveSeekBarHidden: () => false,
     Play_isChatShown: () => s.Play_ChatEnable,
     Play_showChat: () => {
         s.Play_ChatEnable = true;
