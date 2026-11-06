@@ -19,7 +19,11 @@ const wanted = [
     'Screens_Isfocused',
     'Navigation_Activate',
     'Navigation_UtilityReturn',
-    'Navigation_UtilityCancel'
+    'Navigation_UtilityCancel',
+    'Main_SwitchScreen',
+    'Main_CheckAccessibilitySet',
+    'Main_CheckAccessibilityHide',
+    'Main_HideExitDialog'
 ];
 const definitions = {};
 UglifyJS.parse(source).walk(
@@ -68,6 +72,14 @@ function setup(screen, overrides) {
     vm.createContext(s);
     vm.runInContext(ids, s);
     vm.runInContext(code, s);
+    // Production functions record their calls too, so a check can see that one ran.
+    wanted.forEach(name => {
+        const real = s[name];
+        s[name] = function () {
+            calls.push([name].concat(Array.prototype.slice.call(arguments)));
+            return real.apply(this, arguments);
+        };
+    });
     Object.assign(s, {
         Main_IsOn_OSInterface: true,
         Main_updateClockId: 'clock',
@@ -190,5 +202,98 @@ s = setup('Main_Live', {Navigation_Callback: function screenHandler() {}, KEY_EN
 s.Navigation_Activate(7);
 s.Navigation_UtilityReturn({keyCode: 113});
 check(s.Navigation_UtilityOpen === false && called('Navigation_Open'), 'Back from a rail dialog still returns to the rail');
+// History VOD and clip checks: stopped by Main_CheckStop, restarted on resume, run once when overdue.
+const sixHours = 1000 * 60 * 360,
+    workers = {Main_RunVODWorker: function Main_RunVODWorker() {}, Main_RunClipWorker: function Main_RunClipWorker() {}};
+function scheduled(name, fun, delay) {
+    return calls.some(call => call[0] === name && call[1] === fun && call[2] === delay);
+}
+s = setup('Main_Live', Object.assign({Main_RunVODWorkerLast: 0, Main_RunClipWorkerLast: 0}, workers));
+s.Main_CheckResume();
+check(scheduled('Main_setInterval', s.Main_RunVODWorker, sixHours), 'resume restarts the VOD history check');
+check(scheduled('Main_setInterval', s.Main_RunClipWorker, sixHours + 1000 * 60 * 10), 'resume restarts the clip history check');
+check(scheduled('Main_setTimeout', s.Main_RunVODWorker, 50000), 'resume runs an overdue VOD history check');
+check(scheduled('Main_setTimeout', s.Main_RunClipWorker, 80000), 'resume runs an overdue clip history check');
+
+const recent = Date.now() - 1000 * 60 * 60;
+s = setup('Main_Live', Object.assign({Main_RunVODWorkerLast: recent, Main_RunClipWorkerLast: recent}, workers));
+s.Main_CheckResume();
+check(scheduled('Main_setInterval', s.Main_RunVODWorker, sixHours), 'resume restarts the VOD history check after a recent run');
+check(
+    !calls.some(call => call[0] === 'Main_setTimeout' && (call[1] === s.Main_RunVODWorker || call[1] === s.Main_RunClipWorker)),
+    'resume does not repeat a recent run'
+);
+
+s = setup('Main_Live', {Main_RunVODWorkerResumeId: 'vodResume', Main_RunClipWorkerResumeId: 'clipResume'});
+s.Main_CheckStop();
+check(called('Main_clearTimeout', 'vodResume') && called('Main_clearTimeout', 'clipResume'), 'stop cancels the pending resume runs');
+
+// A dialog or panel closing over Search or Add User: Main_SwitchScreen stays there instead of opening Live.
+const keyHandlers = {
+    Search_handleKeyDown: function Search_handleKeyDown() {},
+    Search_KeyboardEvent: function Search_KeyboardEvent() {},
+    AddUser_handleKeyDown: function AddUser_handleKeyDown() {},
+    Main_CheckAccessibilityKey: function Main_CheckAccessibilityKey() {}
+};
+const shown = {Main_Search: 'search_scroll', Main_addUser: 'add_user_scroll'};
+function onScreen(screen, extra) {
+    return Object.assign({Main_isElementShowing: id => id === shown[screen]}, keyHandlers, extra || {});
+}
+function listened(name, fun) {
+    return calls.some(call => call[0] === name && call[1] === 'keydown' && call[2] === fun);
+}
+function returned(screen, s) {
+    if (screen === 'Main_Search') return called('Search_init') && !called('init_fun');
+    return listened('Main_addEventListener', s.AddUser_handleKeyDown) && !called('AddUser_init') && !called('init_fun');
+}
+['Main_Search', 'Main_addUser'].forEach(screen => {
+    s = setup(screen, onScreen(screen));
+    s.Main_HideExitDialog();
+    check(returned(screen, s), screen + ': closing the Exit dialog stays on the screen');
+
+    s = setup(screen, onScreen(screen));
+    s.Main_SwitchScreen();
+    check(returned(screen, s), screen + ': closing a panel over the screen stays on it');
+
+    // Back or the rail hide the screen before switching, as today that ends on Live (no loop back into Add User).
+    s = setup(screen, keyHandlers);
+    s.Main_SwitchScreen();
+    check(
+        called('init_fun') && !called('Search_init') && !listened('Main_addEventListener', s.AddUser_handleKeyDown),
+        screen + ': after leaving it, Live as before'
+    );
+});
+s = setup('Main_Live', keyHandlers);
+s.Main_HideExitDialog();
+check(called('init_fun'), 'Live: closing the Exit dialog still re-inits the screen');
+
+// Accessibility warning on resume: no TypeError, the screen keys stop while it shows, closing it gives them back.
+function removed(fun) {
+    return calls.some(call => call[0] === 'Main_removeEventListener' && call[1] === 'keydown' && call[2] === fun);
+}
+['Main_Search', 'Main_addUser'].forEach(screen => {
+    s = setup(screen, onScreen(screen, {Settings_Obj_default: () => true, OSInterface_isAccessibilitySettingsOn: () => true}));
+    s.Main_CheckResume();
+    check(called('Main_CheckAccessibilitySet'), screen + ': resume shows the accessibility warning');
+    check(called('Settings_burn_in_protection_start'), screen + ': resume with the warning runs to the end');
+    check(
+        removed(s.Search_handleKeyDown) && removed(s.Search_KeyboardEvent) && removed(s.AddUser_handleKeyDown),
+        screen + ': the screen keys stop while the warning shows'
+    );
+    check(
+        calls.some(call => call[0] === 'Main_addEventListener' && call[2] === s.Main_CheckAccessibilityKey),
+        screen + ': the warning takes the keys'
+    );
+    s = setup(screen, onScreen(screen));
+    s.Main_CheckAccessibilityHide(true);
+    check(returned(screen, s), screen + ': closing the warning stays on the screen');
+});
+
+s = setup('Main_Live', Object.assign({Settings_Obj_default: () => true, OSInterface_isAccessibilitySettingsOn: () => true}, keyHandlers));
+s.Main_CheckResume();
+check(
+    calls.some(call => call[0] === 'Main_removeEventListener' && call[2] === s.ScreenObj[s.Main_Live].key_fun),
+    'Live: the warning still removes the grid keys'
+);
 
 console.log(checks + ' background screen checks passed' + (built ? ' (built)' : ''));

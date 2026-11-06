@@ -1039,6 +1039,13 @@ function Main_SwitchScreen(removekey, preventRefresh) {
 
     if (ScreenObj[Main_values.Main_Go]) {
         ScreenObj[Main_values.Main_Go].init_fun(preventRefresh);
+    } else if (Main_values.Main_Go === Main_Search && Main_isElementShowing('search_scroll')) {
+        //Search and Add User have no ScreenObj. When a dialog or panel closes over them, stay there instead of opening Live.
+        //Leaving them (Back, the rail) hides them first, so those paths still fall back to Live.
+        Search_init();
+    } else if (Main_values.Main_Go === Main_addUser && Main_isElementShowing('add_user_scroll')) {
+        //Give the keys back and keep the device code on screen
+        Main_addEventListener('keydown', AddUser_handleKeyDown);
     } else {
         ScreenObj[1].init_fun(); //live
     }
@@ -2910,6 +2917,10 @@ function Main_SetHistoryworker() {
 var Main_StartHistoryworkerId;
 var Main_RunVODWorkerId;
 var Main_RunClipWorkerId;
+var Main_RunVODWorkerResumeId;
+var Main_RunClipWorkerResumeId;
+var Main_RunVODWorkerLast = 0;
+var Main_RunClipWorkerLast = 0;
 
 //Check if a live in history has become a VOD
 function Main_StartHistoryworker() {
@@ -2949,6 +2960,7 @@ function Main_StartHistoryworkerBradcast(obj, type, header) {
 //Check if a VOD in history has ben deleted
 function Main_RunVODWorker() {
     if (ScreenObj[Main_HistoryVod].histPosX[3] || Main_isStopped || !AddUser_IsUserSet() || Boolean(!BradcastCheckerWorker)) return;
+    Main_RunVODWorkerLast = new Date().getTime();
 
     var array = Main_values_History_data[AddUser_UsernameArray[0].id].vod,
         len = array.length,
@@ -3021,6 +3033,7 @@ function Main_RunLiveVODWorker() {
 //Check if a CLIP in history has ben deleted
 function Main_RunClipWorker() {
     if (ScreenObj[Main_HistoryClip].histPosX[3] || Main_isStopped || !AddUser_IsUserSet() || !BradcastCheckerWorker) return;
+    Main_RunClipWorkerLast = new Date().getTime();
 
     var array = Main_values_History_data[AddUser_UsernameArray[0].id].clip;
 
@@ -3135,6 +3148,8 @@ function Main_CheckStop() {
     Main_clearInterval(Main_checkWebVersionId);
     Main_clearInterval(Main_RunVODWorkerId);
     Main_clearInterval(Main_RunClipWorkerId);
+    Main_clearTimeout(Main_RunVODWorkerResumeId);
+    Main_clearTimeout(Main_RunClipWorkerResumeId);
     Main_clearTimeout(Main_checkWebVersionResumeId);
     Main_clearTimeout(Screens_CheckRefreshAfterResumeId);
     Main_clearTimeout(Main_CheckResumeFeedId);
@@ -3238,6 +3253,17 @@ function Main_CheckResume(skipPlay) {
     Main_checkWebVersionId = Main_setInterval(Main_CheckUpdate, 1000 * 60 * 30, Main_checkWebVersionId); //Check it 60 min
     Main_checkWebVersionResumeId = Main_setTimeout(Main_CheckUpdate, 3000, Main_checkWebVersionResumeId);
 
+    //Main_CheckStop clears the history VOD and clip checks. Restart them, and run a check now if its last run is older than its interval.
+    Main_RunVODWorkerId = Main_setInterval(Main_RunVODWorker, 1000 * 60 * 360, Main_RunVODWorkerId); //Check it 6 hours
+    Main_RunClipWorkerId = Main_setInterval(Main_RunClipWorker, 1000 * 60 * 370, Main_RunClipWorkerId); //Check it 6 hours
+    var now = new Date().getTime();
+    if (now > Main_RunVODWorkerLast + 1000 * 60 * 360) {
+        Main_RunVODWorkerResumeId = Main_setTimeout(Main_RunVODWorker, 50000, Main_RunVODWorkerResumeId);
+    }
+    if (now > Main_RunClipWorkerLast + 1000 * 60 * 370) {
+        Main_RunClipWorkerResumeId = Main_setTimeout(Main_RunClipWorker, 80000, Main_RunClipWorkerResumeId);
+    }
+
     //Tecnicly this are only neede if the app fail to refresh when is on background
     UserLiveFeed_CheckRefreshAfterResume();
     Screens_CheckRefreshAfterResumeId = Main_setTimeout(Screens_CheckRefreshAfterResume, 2500, Screens_CheckRefreshAfterResumeId);
@@ -3286,7 +3312,13 @@ function Main_CheckAccessibilitySet() {
 
     Main_innerHTML('dialog_accessibility_text', STR_ACCESSIBILITY_WARN_TEXT);
     Main_ShowElement('dialog_accessibility');
-    Main_removeEventListener('keydown', ScreenObj[Main_values.Main_Go].key_fun);
+    if (ScreenObj[Main_values.Main_Go]) Main_removeEventListener('keydown', ScreenObj[Main_values.Main_Go].key_fun);
+    else {
+        //Search and Add User have no ScreenObj, stop their own handlers. Closing the warning gives them back.
+        Main_removeEventListener('keydown', Search_handleKeyDown);
+        Main_removeEventListener('keydown', Search_KeyboardEvent);
+        Main_removeEventListener('keydown', AddUser_handleKeyDown);
+    }
     Main_removeEventListener('keydown', Main_CheckAccessibilityKey);
     if (!Sidepannel_isShowingUserLive() && Main_isScene1DocVisible()) {
         Sidepannel_Hide();
