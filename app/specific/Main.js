@@ -3182,6 +3182,7 @@ function Main_CheckDialogs() {
         Main_HideChangeDialog();
         Main_HideUpdateDialog();
         Main_HideAboutDialog();
+        Navigation_UtilityCancel();
 
         //Search and Add User have no ScreenObj
         if (!ScreenObj[Main_values.Main_Go]) return;
