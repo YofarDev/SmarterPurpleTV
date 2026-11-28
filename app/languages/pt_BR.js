@@ -554,8 +554,8 @@ function pt_BRLang() {
     STR_CONTROLS_MULTI_5 = 'Sair do multistream: do controle inferior do player ou tecla de retorno duas vezes';
     STR_CONTROLS_MULTI_6 = 'Para fechar este abra as 4 transmissões ao vivo';
     STR_PICTURE_LIVE_FEED = 'Picture in picture: Segure enter, após use o D-Pad para mover, redimensionar ou mudar os vídeos';
-    STR_MULTI_TITLE = ', Clique em uma miniatura para abrir ou substituir, use o direcional esquerdo/direito para mudar a fonte de áudio';
-    STR_FEED_END_DIALOG = ', Pressione retorno para voltar ao menu superior';
+    STR_MULTI_TITLE = '. Clique em uma miniatura para abrir ou substituir, use o direcional esquerdo/direito para mudar a fonte de áudio';
+    STR_FEED_END_DIALOG = '. Pressione retorno para voltar ao menu superior';
     STR_BACK_USER_GAMES = 'Pressione a tecla de retorno para voltar a';
     STR_SHOW_LIVE_PLAYER = 'Mostrar pré-visualização nas telas das transmissões ao vivo';
     STR_SHOW_VOD_PLAYER_WARNING = 'Iniciando a reprodução de onde parou anteriormente:';

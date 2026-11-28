@@ -329,7 +329,7 @@ function tr_TRLang() {
     STR_AUTO_PLAY_NEXT = 'Sıradaki klibi otomatik oynat';
     STR_SIDE_PANEL_BACK_MAIN_MENU = 'Ana menüye geri dön';
     STR_UP = 'Yukarı tuşuna bas';
-    STR_HOLD_UP = 'YUKARI tuşunu veya 2 tuşunu basılı tut';
+    STR_HOLD_UP = 'YUKARI tuşunu basılı tut';
     STR_LIVE_FEED = 'Canlı Akış';
     STR_VOD_DIALOG = 'VOD başlangıç penceresi';
     STR_VOD_DIALOG_SUMMARY =
@@ -565,9 +565,9 @@ function tr_TRLang() {
     STR_CONTROLS_MULTI_5 = 'Çoklu yayından çık: İki kez geri tuşuna basın veya oynatıcının altındaki seçenekten çıkın.';
     STR_CONTROLS_MULTI_6 = 'Bunu kapatmak için 4 canlı yayın açın';
     STR_PICTURE_LIVE_FEED =
-        "Resim içinde resim: Enter'ı basılı tutun veya 1 tuşuna basın, ardından taşımak için D-Pad sol, yeniden boyutlandırmak için sağ veya videoları değiştirmek için aşağı tuşunu kullanın";
-    STR_MULTI_TITLE = ', Bir yayını açmak veya değiştirmek için bir küçük resme tıklayın, ses kaynağını değiştirmek için D-pad sol/sağ kullanın';
-    STR_FEED_END_DIALOG = ', Üst menüye geri dönmek için geri tuşuna basın';
+        "Resim içinde resim: Enter'ı basılı tutun. Ardından taşımak için D-Pad sol, yeniden boyutlandırmak için sağ veya videoları değiştirmek için aşağı tuşunu kullanın";
+    STR_MULTI_TITLE = '. Bir yayını açmak veya değiştirmek için bir küçük resme tıklayın, ses kaynağını değiştirmek için D-pad sol/sağ kullanın';
+    STR_FEED_END_DIALOG = '. Üst menüye geri dönmek için geri tuşuna basın';
     STR_BACK_USER_GAMES = 'Geri dönmek için geri tuşuna basın:';
     STR_SHOW_LIVE_PLAYER = 'Canlı ekranlarda önizlemeyi göster';
     STR_SHOW_VOD_PLAYER_WARNING = 'Oynatma en son durduğu yerden başlıyor:';

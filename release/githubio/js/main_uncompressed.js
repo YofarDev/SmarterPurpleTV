@@ -1899,7 +1899,7 @@
         STR_AUTO_PLAY_NEXT = 'Auto play next clip';
         STR_SIDE_PANEL_BACK_MAIN_MENU = 'Back to main menu';
         STR_UP = 'Press up';
-        STR_HOLD_UP = 'Hold {up} or key 2';
+        STR_HOLD_UP = 'Hold {up}';
         STR_LIVE_FEED = 'Live Feed';
         STR_VOD_DIALOG = 'VOD start dialog';
         STR_VOD_DIALOG_SUMMARY =
@@ -2133,10 +2133,9 @@
         STR_CONTROLS_MULTI_4 = 'Change audio source: D-pad right or left or media keys next previews track, hold down to audio source all videos';
         STR_CONTROLS_MULTI_5 = 'Exit multistream: Press return twice or exit through the option at the bottom of the player.';
         STR_CONTROLS_MULTI_6 = 'To close this, open 4 lives';
-        STR_PICTURE_LIVE_FEED =
-            'Picture in picture: Hold {ok} or press key 1, after use {left} to move, {right} to resize or {down} to change videos';
-        STR_MULTI_TITLE = ', Click on a thumbnail to open or replace a stream, use D-pad left/right to change audio source';
-        STR_FEED_END_DIALOG = ', Press return to go back to top menu';
+        STR_PICTURE_LIVE_FEED = 'Picture in picture: Hold {ok}. After use {left} to move, {right} to resize or {down} to change videos';
+        STR_MULTI_TITLE = '. Click on a thumbnail to open or replace a stream, use D-pad left/right to change audio source';
+        STR_FEED_END_DIALOG = '. Press return to go back to top menu';
         STR_BACK_USER_GAMES = 'Press return to go back to';
         STR_SHOW_LIVE_PLAYER = 'Show preview on the live screens';
         STR_SHOW_VOD_PLAYER_WARNING = 'Starting playback from where it last stopped:';
@@ -3645,7 +3644,7 @@
         STR_AUTO_PLAY_NEXT = 'Lecture automatique du clip suivant';
         STR_SIDE_PANEL_BACK_MAIN_MENU = 'Retour au menu principal';
         STR_UP = 'Appuyez sur Haut';
-        STR_HOLD_UP = 'Maintenez Haut ou la touche 2';
+        STR_HOLD_UP = 'Maintenez Haut';
         STR_LIVE_FEED = 'Flux live';
         STR_VOD_DIALOG = 'Boîte de dialogue de démarrage VOD';
         STR_VOD_DIALOG_SUMMARY =
@@ -3879,9 +3878,9 @@
         STR_CONTROLS_MULTI_5 = "Quitter le multistream : appuyez deux fois sur Retour ou utilisez l'option en bas du lecteur.";
         STR_CONTROLS_MULTI_6 = 'Pour fermer ceci, ouvrez 4 lives';
         STR_PICTURE_LIVE_FEED =
-            'Picture-in-picture : maintenez OK ou appuyez sur la touche 1, puis utilisez Gauche pour déplacer, Droite pour redimensionner ou Bas pour changer les vidéos';
-        STR_MULTI_TITLE = ', cliquez sur une vignette pour ouvrir ou remplacer un stream, utilisez Gauche/Droite pour changer la source audio';
-        STR_FEED_END_DIALOG = ', appuyez sur Retour pour revenir au menu principal';
+            'Picture-in-picture : maintenez OK. Utilisez ensuite Gauche pour déplacer, Droite pour redimensionner ou Bas pour changer les vidéos';
+        STR_MULTI_TITLE = '. Cliquez sur une vignette pour ouvrir ou remplacer un stream, utilisez Gauche/Droite pour changer la source audio';
+        STR_FEED_END_DIALOG = '. Appuyez sur Retour pour revenir au menu principal';
         STR_BACK_USER_GAMES = 'Appuyez sur Retour pour revenir à';
         STR_SHOW_LIVE_PLAYER = "Afficher l'aperçu sur les écrans live";
         STR_SHOW_VOD_PLAYER_WARNING = 'Lecture à partir du dernier arrêt :';
@@ -4861,8 +4860,8 @@
         STR_CONTROLS_MULTI_5 = 'Sair do multistream: do controle inferior do player ou tecla de retorno duas vezes';
         STR_CONTROLS_MULTI_6 = 'Para fechar este abra as 4 transmissões ao vivo';
         STR_PICTURE_LIVE_FEED = 'Picture in picture: Segure enter, após use o D-Pad para mover, redimensionar ou mudar os vídeos';
-        STR_MULTI_TITLE = ', Clique em uma miniatura para abrir ou substituir, use o direcional esquerdo/direito para mudar a fonte de áudio';
-        STR_FEED_END_DIALOG = ', Pressione retorno para voltar ao menu superior';
+        STR_MULTI_TITLE = '. Clique em uma miniatura para abrir ou substituir, use o direcional esquerdo/direito para mudar a fonte de áudio';
+        STR_FEED_END_DIALOG = '. Pressione retorno para voltar ao menu superior';
         STR_BACK_USER_GAMES = 'Pressione a tecla de retorno para voltar a';
         STR_SHOW_LIVE_PLAYER = 'Mostrar pré-visualização nas telas das transmissões ao vivo';
         STR_SHOW_VOD_PLAYER_WARNING = 'Iniciando a reprodução de onde parou anteriormente:';
@@ -5823,8 +5822,8 @@
         STR_CONTROLS_MULTI_5 = 'Выход из мультистрима: дважды на кнопку назад.';
         STR_CONTROLS_MULTI_6 = 'Чтобы скрыть это, откройте 4 стрима';
         STR_PICTURE_LIVE_FEED = 'КвК: Удерживайте ОК. (Влево для перемещения, Вправо для изм. размера или Вниз для изм. видео)';
-        STR_MULTI_TITLE = ', Нажмите на превью, чтобы открыть или заменить поток, используйте D-pad влево/вправо, чтобы изменить источник звука.';
-        STR_FEED_END_DIALOG = ', Нажмите Назад, чтобы вернуться в главное меню';
+        STR_MULTI_TITLE = '. Нажмите на превью, чтобы открыть или заменить поток, используйте D-pad влево/вправо, чтобы изменить источник звука.';
+        STR_FEED_END_DIALOG = '. Нажмите Назад, чтобы вернуться в главное меню';
         STR_BACK_USER_GAMES = 'Нажмите назад, чтобы вернуться к';
         STR_SHOW_LIVE_PLAYER = 'Показать превью на экранах прямых трансляций';
         STR_SHOW_VOD_PLAYER_WARNING = 'Начало воспроизведения с места последней остановки:';
@@ -6577,7 +6576,7 @@
         STR_AUTO_PLAY_NEXT = 'Sıradaki klibi otomatik oynat';
         STR_SIDE_PANEL_BACK_MAIN_MENU = 'Ana menüye geri dön';
         STR_UP = 'Yukarı tuşuna bas';
-        STR_HOLD_UP = 'YUKARI tuşunu veya 2 tuşunu basılı tut';
+        STR_HOLD_UP = 'YUKARI tuşunu basılı tut';
         STR_LIVE_FEED = 'Canlı Akış';
         STR_VOD_DIALOG = 'VOD başlangıç penceresi';
         STR_VOD_DIALOG_SUMMARY =
@@ -6813,9 +6812,9 @@
         STR_CONTROLS_MULTI_5 = 'Çoklu yayından çık: İki kez geri tuşuna basın veya oynatıcının altındaki seçenekten çıkın.';
         STR_CONTROLS_MULTI_6 = 'Bunu kapatmak için 4 canlı yayın açın';
         STR_PICTURE_LIVE_FEED =
-            "Resim içinde resim: Enter'ı basılı tutun veya 1 tuşuna basın, ardından taşımak için D-Pad sol, yeniden boyutlandırmak için sağ veya videoları değiştirmek için aşağı tuşunu kullanın";
-        STR_MULTI_TITLE = ', Bir yayını açmak veya değiştirmek için bir küçük resme tıklayın, ses kaynağını değiştirmek için D-pad sol/sağ kullanın';
-        STR_FEED_END_DIALOG = ', Üst menüye geri dönmek için geri tuşuna basın';
+            "Resim içinde resim: Enter'ı basılı tutun. Ardından taşımak için D-Pad sol, yeniden boyutlandırmak için sağ veya videoları değiştirmek için aşağı tuşunu kullanın";
+        STR_MULTI_TITLE = '. Bir yayını açmak veya değiştirmek için bir küçük resme tıklayın, ses kaynağını değiştirmek için D-pad sol/sağ kullanın';
+        STR_FEED_END_DIALOG = '. Üst menüye geri dönmek için geri tuşuna basın';
         STR_BACK_USER_GAMES = 'Geri dönmek için geri tuşuna basın:';
         STR_SHOW_LIVE_PLAYER = 'Canlı ekranlarda önizlemeyi göster';
         STR_SHOW_VOD_PLAYER_WARNING = 'Oynatma en son durduğu yerden başlıyor:';
@@ -7624,7 +7623,7 @@
         STR_AUTO_PLAY_NEXT = 'Автоматично відтворювати наступний кліп';
         STR_SIDE_PANEL_BACK_MAIN_MENU = 'Назад на головну';
         STR_UP = 'Натисніть вгору';
-        STR_HOLD_UP = 'Утримуйте {up} або клавішу 2';
+        STR_HOLD_UP = 'Утримуйте {up}';
         STR_LIVE_FEED = 'Зараз в ефірі';
         STR_VOD_DIALOG = 'Діалог старту VOD';
         STR_VOD_DIALOG_SUMMARY =
@@ -7857,9 +7856,9 @@
         STR_CONTROLS_MULTI_5 = 'Вийти з мультистріму: двічі натисніть назад або виберіть опцію внизу плеєра';
         STR_CONTROLS_MULTI_6 = 'Щоб закрити це — відкрийте 4 ефіри';
         STR_PICTURE_LIVE_FEED =
-            'Картинка в картинці: утримуйте {ok} або натисніть клавішу 1, після скористайтесь {left} для переміщення, {right} для зміни розміру або {down} для зміни відео';
-        STR_MULTI_TITLE = ', натисніть на мініатюру, щоб відкрити або замінити стрім, використовуйте D-pad ліворуч/праворуч для зміни джерела звуку';
-        STR_FEED_END_DIALOG = ', натисніть назад для повернення до головного меню';
+            'Картинка в картинці: утримуйте {ok}. Після скористайтесь {left} для переміщення, {right} для зміни розміру або {down} для зміни відео';
+        STR_MULTI_TITLE = '. Натисніть на мініатюру, щоб відкрити або замінити стрім, використовуйте D-pad ліворуч/праворуч для зміни джерела звуку';
+        STR_FEED_END_DIALOG = '. Натисніть назад для повернення до головного меню';
         STR_BACK_USER_GAMES = 'Натисніть назад, щоб повернутися до';
         STR_SHOW_LIVE_PLAYER = 'Показувати попередній перегляд на екранах ефірів';
         STR_SHOW_VOD_PLAYER_WARNING = 'Відтворення почнеться з місця, де було зупинено:';
@@ -8766,9 +8765,17 @@
         VersionBase: '3.0',
         publishVersionCode: 405, //Always update (+1 to current value) Main_version_java after update publishVersionCode or a major update of the apk is released
         ApkUrl: 'https://github.com/YofarDev/SmarterPurpleTV/releases/download/405/SmarterPurpleTV_3_0_405.apk',
-        WebVersion: 'November 26 2026',
-        WebTag: 808, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
+        WebVersion: 'November 28 2026',
+        WebTag: 809, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
         changelog: [
+            {
+                title: 'November 28 2026 (Web 809)',
+                changes: [
+                    'Fix: the player channel switcher (press Up) hint lines no longer clip below the screen, and "Last refreshed" no longer runs into the counter (#51)',
+                    'Improvement: the switcher row names fade at the edges when more names are hidden, and hint lines cut with an ellipsis instead of overflowing (#51)',
+                    'Improvement: the switcher hints drop the number key mentions (still listed in Controls) so every translation fits on one line'
+                ]
+            },
             {
                 title: 'November 26 2026 (Web 808)',
                 changes: [
@@ -58432,10 +58439,19 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
         if (!strip || !item) return;
         if (strip.scrollWidth <= strip.clientWidth) {
             strip.scrollLeft = 0;
-            return;
+        } else {
+            var offset = item.getBoundingClientRect().left - strip.getBoundingClientRect().left + strip.scrollLeft;
+            strip.scrollLeft = Math.max(0, offset - strip.clientWidth / 3);
         }
-        var offset = item.getBoundingClientRect().left - strip.getBoundingClientRect().left + strip.scrollLeft;
-        strip.scrollLeft = Math.max(0, offset - strip.clientWidth / 3);
+        UserLiveFeedobj_StripHints(strip);
+    }
+
+    /* Fade hints on the strip edges that hide more names, like the drawer's PlayerUI_ScrollHints. */
+    function UserLiveFeedobj_StripHints(strip) {
+        if (strip.scrollLeft > 1) strip.classList.add('feed_end_more_left');
+        else strip.classList.remove('feed_end_more_left');
+        if (strip.scrollLeft + strip.clientWidth < strip.scrollWidth - 1) strip.classList.add('feed_end_more_right');
+        else strip.classList.remove('feed_end_more_right');
     }
 
     function UserLiveFeedobj_CreateSideFeed(id, data) {

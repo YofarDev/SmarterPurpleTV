@@ -23,9 +23,17 @@ var version = {
     VersionBase: '3.0',
     publishVersionCode: 405, //Always update (+1 to current value) Main_version_java after update publishVersionCode or a major update of the apk is released
     ApkUrl: 'https://github.com/YofarDev/SmarterPurpleTV/releases/download/405/SmarterPurpleTV_3_0_405.apk',
-    WebVersion: 'November 26 2026',
-    WebTag: 808, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
+    WebVersion: 'November 28 2026',
+    WebTag: 809, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
     changelog: [
+        {
+            title: 'November 28 2026 (Web 809)',
+            changes: [
+                'Fix: the player channel switcher (press Up) hint lines no longer clip below the screen, and "Last refreshed" no longer runs into the counter (#51)',
+                'Improvement: the switcher row names fade at the edges when more names are hidden, and hint lines cut with an ellipsis instead of overflowing (#51)',
+                'Improvement: the switcher hints drop the number key mentions (still listed in Controls) so every translation fits on one line'
+            ]
+        },
         {
             title: 'November 26 2026 (Web 808)',
             changes: [

@@ -326,7 +326,7 @@ function fr_FRLang() {
     STR_AUTO_PLAY_NEXT = 'Lecture automatique du clip suivant';
     STR_SIDE_PANEL_BACK_MAIN_MENU = 'Retour au menu principal';
     STR_UP = 'Appuyez sur Haut';
-    STR_HOLD_UP = 'Maintenez Haut ou la touche 2';
+    STR_HOLD_UP = 'Maintenez Haut';
     STR_LIVE_FEED = 'Flux live';
     STR_VOD_DIALOG = 'Boîte de dialogue de démarrage VOD';
     STR_VOD_DIALOG_SUMMARY =
@@ -560,9 +560,9 @@ function fr_FRLang() {
     STR_CONTROLS_MULTI_5 = "Quitter le multistream : appuyez deux fois sur Retour ou utilisez l'option en bas du lecteur.";
     STR_CONTROLS_MULTI_6 = 'Pour fermer ceci, ouvrez 4 lives';
     STR_PICTURE_LIVE_FEED =
-        'Picture-in-picture : maintenez OK ou appuyez sur la touche 1, puis utilisez Gauche pour déplacer, Droite pour redimensionner ou Bas pour changer les vidéos';
-    STR_MULTI_TITLE = ', cliquez sur une vignette pour ouvrir ou remplacer un stream, utilisez Gauche/Droite pour changer la source audio';
-    STR_FEED_END_DIALOG = ', appuyez sur Retour pour revenir au menu principal';
+        'Picture-in-picture : maintenez OK. Utilisez ensuite Gauche pour déplacer, Droite pour redimensionner ou Bas pour changer les vidéos';
+    STR_MULTI_TITLE = '. Cliquez sur une vignette pour ouvrir ou remplacer un stream, utilisez Gauche/Droite pour changer la source audio';
+    STR_FEED_END_DIALOG = '. Appuyez sur Retour pour revenir au menu principal';
     STR_BACK_USER_GAMES = 'Appuyez sur Retour pour revenir à';
     STR_SHOW_LIVE_PLAYER = "Afficher l'aperçu sur les écrans live";
     STR_SHOW_VOD_PLAYER_WARNING = 'Lecture à partir du dernier arrêt :';
