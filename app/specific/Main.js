@@ -2101,7 +2101,6 @@ function Main_clearAllPlayerEvents() {
 
     Main_removeEventListener('keydown', Play_EndUpclearCalback);
 
-    Main_removeEventListener('keyup', PlayVod_SeekClear);
     Main_removeEventListener('keyup', Play_handleKeyUp);
 }
 

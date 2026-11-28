@@ -49,7 +49,8 @@ var TESTS = [
     'vod-animated-thumb',
     'vod-chat-sync',
     'vod-logo',
-    'vod-nosub'
+    'vod-nosub',
+    'vod-seek'
 ];
 
 var failed = [];

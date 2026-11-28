@@ -8766,8 +8766,16 @@
         publishVersionCode: 405, //Always update (+1 to current value) Main_version_java after update publishVersionCode or a major update of the apk is released
         ApkUrl: 'https://github.com/YofarDev/SmarterPurpleTV/releases/download/405/SmarterPurpleTV_3_0_405.apk',
         WebVersion: 'November 28 2026',
-        WebTag: 809, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
+        WebTag: 810, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
         changelog: [
+            {
+                title: 'November 28 2026 (Web 810)',
+                changes: [
+                    'Improvement: while watching a VOD, Left/Right now seeks right away even when the control bar is open with Pause focused — no need to press Up first to reach the seek bar (#52)',
+                    'Improvement: rapidly repeated Left/Right presses grow the seek step, same as holding the key; the step resets after a pause or once the seek runs (#52)',
+                    'Fix: growing the seek step to its largest size no longer breaks the seek position (an out-of-range step setting made the jump target invalid)'
+                ]
+            },
             {
                 title: 'November 28 2026 (Web 809)',
                 changes: [
@@ -21412,7 +21420,6 @@
 
         Main_removeEventListener('keydown', Play_EndUpclearCalback);
 
-        Main_removeEventListener('keyup', PlayVod_SeekClear);
         Main_removeEventListener('keyup', Play_handleKeyUp);
     }
 
@@ -38198,7 +38205,6 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
         //Main_Log('PlayVod_ClearVod');
 
         Main_removeEventListener('keydown', PlayVod_handleKeyDown);
-        Main_removeEventListener('keyup', PlayVod_SeekClear);
         Main_vodOffset = 0;
         Play_DurationSeconds = 0;
         PlayVod_ResumeTime = 0;
@@ -38477,6 +38483,8 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
             '<div id="pause_button_icon_holder"><i id="pause_button_icon" class="pause_button3d icon-pause"></i> </div>'
         );
         PlayVod_jumpCount = Settings_value.vod_seek_min.defaultValue;
+        //The seek executed, the burst is over (#52)
+        PlayVod_OldTime = 0;
 
         Play_BufferSize = Play_BufferSize - PlayVod_addToJump;
         PlayVod_addToJump = 0;
@@ -38490,7 +38498,6 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
         PlayVod_OldTime = 0;
         PlayVod_last_multiplier = '';
         PlayVod_jumpSteps(Settings_value.vod_seek_min.defaultValue);
-        Main_removeEventListener('keyup', PlayVod_SeekClear);
     }
 
     var PlayVod_last_multiplier = '';
@@ -38546,20 +38553,24 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
         PlayVod_previews_move(position, time_to_jump_string);
     }
 
-    function PlayVod_SeekClear() {
-        PlayVod_OldTime = 0;
-    }
-
     function PlayVod_jumpStart(multiplier, duration_seconds) {
         var currentTime = OSInterface_gettime() / 1000;
 
-        Main_addEventListener('keyup', PlayVod_SeekClear);
         Main_clearTimeout(PlayVod_SizeClearID);
         PlayVod_IsJumping = true;
 
         var timeNow = new Date().getTime();
 
-        if (!PlayVod_jumpStepsIncreaseLock && PlayVod_jumpCount < PlayVod_jump_max_step && PlayVod_OldTime && timeNow > PlayVod_OldTime) {
+        //The step grows while the user keeps seeking (hold repeats or rapid taps); PlayVod_jump (the
+        //seek executes) and PlayVod_SizeClear (1s without a press) end the burst. The length - 1 cap
+        //keeps the count inside the table: vod_seek_max default (11) points past its last index (#52)
+        if (
+            !PlayVod_jumpStepsIncreaseLock &&
+            PlayVod_jumpCount < Play_DefaultjumpTimers.length - 1 &&
+            PlayVod_jumpCount < PlayVod_jump_max_step &&
+            PlayVod_OldTime &&
+            timeNow > PlayVod_OldTime
+        ) {
             PlayVod_jumpCount++;
             PlayVod_OldTime = timeNow + Settings_Seek_Time[Settings_value.vod_seek_time.defaultValue];
         } else if (!PlayVod_OldTime) {
@@ -38747,7 +38758,12 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
             case KEY_LEFT:
                 if (Play_isPanelShowing() && !Play_isVodDialogVisible()) {
                     if (PlayVod_PanelY === 2) Play_BottomLeftRigt(2, -1);
-                    else if (!PlayVod_PanelY) {
+                    else {
+                        //The Pause row has no Left/Right use: seek from it instead of waiting for Up (#52)
+                        if (PlayVod_PanelY) {
+                            PlayVod_PanelY = 0;
+                            Play_BottomIconsFocus();
+                        }
                         PlayVod_jumpStart(-1, Play_DurationSeconds);
                         PlayVod_ProgressBaroffset = 2500;
                     }
@@ -38775,7 +38791,12 @@ https://video-weaver.sao03.hls.ttvnw.net/v1/playlist/C.m3u8 09:36:20.90
             case KEY_RIGHT:
                 if (Play_isPanelShowing() && !Play_isVodDialogVisible()) {
                     if (PlayVod_PanelY === 2) Play_BottomLeftRigt(2, 1);
-                    else if (!PlayVod_PanelY) {
+                    else {
+                        //The Pause row has no Left/Right use: seek from it instead of waiting for Up (#52)
+                        if (PlayVod_PanelY) {
+                            PlayVod_PanelY = 0;
+                            Play_BottomIconsFocus();
+                        }
                         PlayVod_jumpStart(1, Play_DurationSeconds);
                         PlayVod_ProgressBaroffset = 2500;
                     }

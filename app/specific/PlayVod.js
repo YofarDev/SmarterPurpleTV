@@ -672,7 +672,6 @@ function PlayVod_ClearVod() {
     //Main_Log('PlayVod_ClearVod');
 
     Main_removeEventListener('keydown', PlayVod_handleKeyDown);
-    Main_removeEventListener('keyup', PlayVod_SeekClear);
     Main_vodOffset = 0;
     Play_DurationSeconds = 0;
     PlayVod_ResumeTime = 0;
@@ -943,6 +942,8 @@ function PlayVod_jump() {
         '<div id="pause_button_icon_holder"><i id="pause_button_icon" class="pause_button3d icon-pause"></i> </div>'
     );
     PlayVod_jumpCount = Settings_value.vod_seek_min.defaultValue;
+    //The seek executed, the burst is over (#52)
+    PlayVod_OldTime = 0;
 
     Play_BufferSize = Play_BufferSize - PlayVod_addToJump;
     PlayVod_addToJump = 0;
@@ -956,7 +957,6 @@ function PlayVod_SizeClear() {
     PlayVod_OldTime = 0;
     PlayVod_last_multiplier = '';
     PlayVod_jumpSteps(Settings_value.vod_seek_min.defaultValue);
-    Main_removeEventListener('keyup', PlayVod_SeekClear);
 }
 
 var PlayVod_last_multiplier = '';
@@ -1006,20 +1006,24 @@ function PlayVod_jumpTime(position) {
     PlayVod_previews_move(position, time_to_jump_string);
 }
 
-function PlayVod_SeekClear() {
-    PlayVod_OldTime = 0;
-}
-
 function PlayVod_jumpStart(multiplier, duration_seconds) {
     var currentTime = OSInterface_gettime() / 1000;
 
-    Main_addEventListener('keyup', PlayVod_SeekClear);
     Main_clearTimeout(PlayVod_SizeClearID);
     PlayVod_IsJumping = true;
 
     var timeNow = new Date().getTime();
 
-    if (!PlayVod_jumpStepsIncreaseLock && PlayVod_jumpCount < PlayVod_jump_max_step && PlayVod_OldTime && timeNow > PlayVod_OldTime) {
+    //The step grows while the user keeps seeking (hold repeats or rapid taps); PlayVod_jump (the
+    //seek executes) and PlayVod_SizeClear (1s without a press) end the burst. The length - 1 cap
+    //keeps the count inside the table: vod_seek_max default (11) points past its last index (#52)
+    if (
+        !PlayVod_jumpStepsIncreaseLock &&
+        PlayVod_jumpCount < Play_DefaultjumpTimers.length - 1 &&
+        PlayVod_jumpCount < PlayVod_jump_max_step &&
+        PlayVod_OldTime &&
+        timeNow > PlayVod_OldTime
+    ) {
         PlayVod_jumpCount++;
         PlayVod_OldTime = timeNow + Settings_Seek_Time[Settings_value.vod_seek_time.defaultValue];
     } else if (!PlayVod_OldTime) {
@@ -1204,7 +1208,12 @@ function PlayVod_handleKeyDown(e) {
         case KEY_LEFT:
             if (Play_isPanelShowing() && !Play_isVodDialogVisible()) {
                 if (PlayVod_PanelY === 2) Play_BottomLeftRigt(2, -1);
-                else if (!PlayVod_PanelY) {
+                else {
+                    //The Pause row has no Left/Right use: seek from it instead of waiting for Up (#52)
+                    if (PlayVod_PanelY) {
+                        PlayVod_PanelY = 0;
+                        Play_BottomIconsFocus();
+                    }
                     PlayVod_jumpStart(-1, Play_DurationSeconds);
                     PlayVod_ProgressBaroffset = 2500;
                 }
@@ -1232,7 +1241,12 @@ function PlayVod_handleKeyDown(e) {
         case KEY_RIGHT:
             if (Play_isPanelShowing() && !Play_isVodDialogVisible()) {
                 if (PlayVod_PanelY === 2) Play_BottomLeftRigt(2, 1);
-                else if (!PlayVod_PanelY) {
+                else {
+                    //The Pause row has no Left/Right use: seek from it instead of waiting for Up (#52)
+                    if (PlayVod_PanelY) {
+                        PlayVod_PanelY = 0;
+                        Play_BottomIconsFocus();
+                    }
                     PlayVod_jumpStart(1, Play_DurationSeconds);
                     PlayVod_ProgressBaroffset = 2500;
                 }

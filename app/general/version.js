@@ -24,8 +24,16 @@ var version = {
     publishVersionCode: 405, //Always update (+1 to current value) Main_version_java after update publishVersionCode or a major update of the apk is released
     ApkUrl: 'https://github.com/YofarDev/SmarterPurpleTV/releases/download/405/SmarterPurpleTV_3_0_405.apk',
     WebVersion: 'November 28 2026',
-    WebTag: 809, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
+    WebTag: 810, //Always update (+1 to current value) Main_version_web after update Main_minversion or a major update of the web part of the app
     changelog: [
+        {
+            title: 'November 28 2026 (Web 810)',
+            changes: [
+                'Improvement: while watching a VOD, Left/Right now seeks right away even when the control bar is open with Pause focused — no need to press Up first to reach the seek bar (#52)',
+                'Improvement: rapidly repeated Left/Right presses grow the seek step, same as holding the key; the step resets after a pause or once the seek runs (#52)',
+                'Fix: growing the seek step to its largest size no longer breaks the seek position (an out-of-range step setting made the jump target invalid)'
+            ]
+        },
         {
             title: 'November 28 2026 (Web 809)',
             changes: [
